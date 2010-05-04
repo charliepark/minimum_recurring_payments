@@ -17,7 +17,7 @@ When the cron job runs, the script checks the database for all subscriptions tha
 
 ### Subscription
     t.integer   user_id
-    t.integer		subscription_plan_id
+    t.integer   subscription_plan_id
     t.date      paid_through
     t.date      expire_on
     t.integer   braintree_customer_id
