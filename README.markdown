@@ -1,6 +1,6 @@
-h1. Minimum Recurring Payments
+# Minimum Recurring Payments
 
-h2. What's This All About?
+## What's This All About?
 
 These are my thoughts, as I get my head wrapped around how to handle recurring payments in web apps, using Rails and Active Merchant to send customer data over to Braintree.
 
