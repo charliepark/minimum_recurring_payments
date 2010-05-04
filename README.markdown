@@ -17,4 +17,18 @@ When the cron job runs, the script checks the database for all subscriptions tha
 
 ### Subscription
     t.integer   user_id
-    t.integer   subscription_plan_id
+    t.integer		subscription_plan_id
+    t.date      paid_through
+    t.date      expire_on
+    t.integer   braintree_customer_id
+		t.date			annual_billing_reminder_sent_on
+		t.boolean   send_close_down_email
+		t.datetime  deleted_at
+
+### Subscription Plan
+    t.string    name
+    t.integer   rate
+    t.boolean   yearly    #(is this necessary?)
+
+
+One of the Subscription Plans should be "closed account". With this plan, the user can still access her account, but will not be billed again. At the paid_through date on her Subscription, if her Subscription has a "send_close_down_email" value of 1, she should be sent a "thank you for using Monotask" e-mail that confirms that the subscription is terminated; also, the Subscription's "deleted_at" should be updated with the current datetime.
