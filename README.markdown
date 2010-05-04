@@ -17,4 +17,4 @@ When the cron job runs, the script checks the database for all subscriptions tha
 
 ### Subscription
     t.integer   user_id
-    t.integer		subscription_plan_id
+    t.integer   subscription_plan_id
