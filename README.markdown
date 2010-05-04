@@ -10,9 +10,6 @@ At the moment, these will just be loosely-gathered thoughts. I might add some co
 
 I'm using a lot of the thinking of Freemium, but I expect to either build this on top of Active Merchant, or to use a tweaked version of Freemium.
 
-When the cron job runs, the script checks the database for all subscriptions that have a "paid_through" date less than or equal to Date.today and a subscription_plan_id that is not "0" (closed account).
-
-
 ## Database Schema
 
 ### Subscription
@@ -28,7 +25,19 @@ When the cron job runs, the script checks the database for all subscriptions tha
 ### Subscription Plan
     t.string    name
     t.integer   rate
-    t.boolean   yearly    #(is this necessary?)
+    t.boolean   yearly    # this is necessary, as it sets the date for the "paid_through" value
 
 
 One of the Subscription Plans should be "closed account". With this plan, the user can still access her account, but will not be billed again. At the paid_through date on her Subscription, if her Subscription has a "send_close_down_email" value of 1, she should be sent a "thank you for using Monotask" e-mail that confirms that the subscription is terminated; also, the Subscription's "deleted_at" should be updated with the current datetime.
+
+
+## How Does the Recurring Charge Work?
+
+When the cron job runs, the script checks the database for all subscriptions that have a "paid_through" date less than or equal to Date.today and a subscription_plan_id that is not "0" (closed account).
+
+For each subscription, the script sends a billing request to Braintree, with the @subscription.subscription_plan.rate as the amount to charge.
+
+If the charge comes back with a success code, the script then updates the @subscription.paid_through ... if @subscription.subscription_plan.yearly is true, it updates the paid_through to @subscription.paid_through + 1.year. Else, it updates the paid_through to @subscription.paid_through + 1.month.
+
+
+
