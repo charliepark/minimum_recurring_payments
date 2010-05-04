@@ -21,9 +21,9 @@ When the cron job runs, the script checks the database for all subscriptions tha
     t.date      paid_through
     t.date      expire_on
     t.integer   braintree_customer_id
-		t.date			annual_billing_reminder_sent_on
-		t.boolean   send_close_down_email
-		t.datetime  deleted_at
+    t.date      annual_billing_reminder_sent_on
+    t.boolean   send_close_down_email
+    t.datetime  deleted_at
 
 ### Subscription Plan
     t.string    name
