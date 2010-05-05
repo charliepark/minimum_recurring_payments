@@ -8,7 +8,9 @@ At the moment, these will just be loosely-gathered thoughts. I might add some co
 
 ## Some Groundwork
 
-I'm using a lot of the thinking of Freemium, but I expect to either build this on top of Active Merchant, or to use a tweaked version of Freemium.
+-I'm using a lot of the thinking of Freemium, but I expect to either build this on top of Active Merchant, or to use a tweaked version of Freemium.-
+
+Because of how much work has gone into Active Merchant, especially by the Braintree team, it makes sense to use that as the plumbing. We'll still need a cron job and homegrown scripts to decide when to bill, and how much, and so on.
 
 ## Database Schema
 
@@ -38,6 +40,49 @@ When the cron job runs, the script checks the database for all subscriptions tha
 For each subscription, the script sends a billing request to Braintree, with the @subscription.subscription_plan.rate as the amount to charge.
 
 If the charge comes back with a success code, the script then updates the @subscription.paid_through ... if @subscription.subscription_plan.yearly is true, it updates the paid_through to @subscription.paid_through + 1.year. Else, it updates the paid_through to @subscription.paid_through + 1.month.
+
+
+
+
+
+
+## Some Notes on Railscast #144 (Active Merchant Basics)
+
+* Ryan is using PayPal as his gateway, but we'll be using Braintree.
+
+    gem install activemerchant
+
+* Note: I'm using RVM, so I don't use sudo on my gems
+
+    # purchase.rb
+    require "rubygems"
+    require "active_merchant"
+
+    ActiveMerchant
+
+    gateway = ActiveMerchant::Billing::BraintreeGateway.new(
+      :login     => "",
+      :password  => "",
+      :signature => "",
+      )
+
+    credit_card = ActiveMerchant::Billing::CreditCard.new(
+      
+      )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
